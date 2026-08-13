@@ -1,0 +1,15 @@
+<div
+  class="absolute inset-0"
+  (dblclick)="onDblClick($event)"
+>
+  @for (annotation of pageAnnotations(); track annotation.id) {
+    @if (annotation.type === 'text') {
+      <app-text-annotation
+        [annotation]="annotation"
+        [scale]="scale()"
+        (textChange)="annotationService.updateText(annotation.id, $event)"
+        (remove)="annotationService.remove(annotation.id)"
+      />
+    }
+  }
+</div>

@@ -1,0 +1,22 @@
+
+<div class="flex items-center justify-between gap-4 px-4 py-2 border-b border-gray-300 z-10">
+  <div class="font-bold text-xl">{{data.name}}</div>
+  <div class="flex items-center gap-3">
+    <button appIconButton (click)="zoomOut()" [disabled]="scale <= 0.25">-</button>
+    <div class="min-w-[40px] text-center text-sm">{{ (scale * 100).toFixed(0) }}%</div>
+    <button appIconButton (click)="zoomIn()" [disabled]="scale >= 2">+</button>
+  </div>
+  <button appIconButton class="w-auto px-3" (click)="save()">Save</button>
+</div>
+
+<div class="flex-1 overflow-auto bg-[#808080] py-8">
+  @for (page of data.pages; track page.number; let last = $last) {
+    <div
+      class="relative mx-auto shadow-[0_4px_12px_rgba(0,0,0,0.3)]"
+      [style.width.px]="baseWidth * scale"
+      [style.marginBottom.px]="last ? 0 : 32 * scale">
+      <img class="block w-full h-auto" [src]="page.imageUrl" [alt]="'Page ' + page.number" (error)="onImageError($event)" />
+      <app-page-annotations [documentId]="documentId" [pageNumber]="page.number" [scale]="scale" />
+    </div>
+  }
+</div>

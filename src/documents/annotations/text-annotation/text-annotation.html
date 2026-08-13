@@ -1,0 +1,15 @@
+<div class="absolute select-none group origin-top-left" [attr.data-annotation-id]="annotation().id" [class.cursor-move]="!editing" [style.left.%]="annotation().x * 100"
+  [style.top.%]="annotation().y * 100" [style.transform]="'scale(' + scale() + ')'" (dblclick)="startEdit($event)">
+  @if (!editing) {
+  <div [ngClass]="boxClass" class="whitespace-pre-wrap break-words">
+    {{ annotation().text }}
+  </div>
+  } @else {
+  <textarea #textarea [ngClass]="boxClass" class="field-sizing-content px-1 resize-none focus:outline-none cursor-text"
+    [ngModel]="annotation().text" (ngModelChange)="textChange.emit($event)" (mousedown)="$event.stopPropagation()"
+    (blur)="editing = false" (keydown.escape)="editing = false"></textarea>
+  }
+  <button class="absolute -top-2 -right-2 hidden group-hover:flex items-center justify-center
+               w-4 h-4 rounded-full bg-red-500 text-white text-[10px] leading-none cursor-pointer"
+    (mousedown)="$event.stopPropagation()" (click)="remove.emit()">×</button>
+</div>
